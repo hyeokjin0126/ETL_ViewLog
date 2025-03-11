@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Now Watching</title>
+</head>
+<body>
+    <h1 id="title">Loading...</h1>
+    <video id="video" width="800" controls autoplay muted>
+        Your browser does not support the video tag.
+    </video>
+    <br>
+    <a href="/">Back to Home</a>
+
+    <script>
+        const video_id = (new URLSearchParams(window.location.search)).get("v");
+        if (!video_id) { alert("비디오를 찾을 수 없습니다."); window.location.href = "/" } 
+        let ifTrack = false
+        let video_name;
+        let video_time = 0; // 비디오 길이
+        let watched_time = 0; // 비디오 시청 시간
+
+        fetch(`/watch?v=${video_id}`, { method: "POST" })
+            .then(response => response.json())
+            .then(data => {
+                video_name = data.title;
+                document.getElementById("title").innerText = data.title;
+                const videoElement = document.getElementById("video");
+                videoElement.innerHTML = `<source src="${data.url}" type="video/mp4">`;
+
+                // 비디오 길이 저장 & 비디오 자동 재생
+                videoElement.addEventListener("loadedmetadata", () => { 
+                    video_time = videoElement.duration 
+                    videoElement.play();
+                });
+
+                // 비디오 시청 완료
+                videoElement.addEventListener("ended", () => sendToKinesis("completed"));
+                // URL이 변경될 때(뒤로 가기, 앞으로 가기)
+                window.addEventListener("popstate", () => { sendToKinesis("interrupted") });
+                // 브라우저가 닫히거나 새로고침할 때
+                window.addEventListener("beforeunload", () => { sendToKinesis("interrupted") });
+
+                // 시청 시간 추적 (매초마다 업데이트)
+                videoElement.addEventListener("timeupdate", () => { watched_time = videoElement.currentTime });
+            })
+            .catch(error => {
+                window.location.href = "/"
+            });
+    
+        function sendToKinesis(status) {
+            if(!ifTrack){
+                ifTrack = true;
+                fetch("/watch/track", { 
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ video_id, video_name, video_time, watched_time, status })
+                });
+            }
+        }
+    </script>
+</body>
+</html>
