@@ -1,23 +1,23 @@
-![image](https://github.com/user-attachments/assets/ee0dd281-e0ac-414f-9cba-0ce458b94916)
+![image](https://github.com/user-attachments/assets/5c0813ca-944f-4957-a779-3c21e91745d7)
 
 # 1\. Kinesis Stream 만들기
 Kinesis Stream 콘솔에서 "track\_stream" 데이터 스트림을 만들어줍니다.
 
-![image](https://github.com/user-attachments/assets/ccacac5d-f5ef-45a7-942f-4ed835ff354e)
+![image](https://github.com/user-attachments/assets/2e213b25-fec5-4fb4-8bc8-a9846298a84d)
 
 <br>
 
 # 2\. Glue DB 만들기
 Glue에서 DataBase를 하나 만들어줍니다.
 
-![image](https://github.com/user-attachments/assets/58b23e9a-6fe9-4e2c-9631-78badd5c8e81)
+![image](https://github.com/user-attachments/assets/d0bdda88-ad40-4423-a506-870517e9a852)
 
 <br>
 
 # 3\. Apache Flink Studio 만들기
 Kinesis Data Analytics 콘솔에서 Apache Flink 애플리케이션을 만들어줍니다.
 
-![image](https://github.com/user-attachments/assets/e01912ec-0481-46de-a37b-ad707a499d09)
+![image](https://github.com/user-attachments/assets/d6f2c121-c572-4bfe-8f90-e4013c61a5a6)
 
 <br>
 
